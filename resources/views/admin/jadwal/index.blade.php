@@ -5,66 +5,45 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                @if (session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                        role="alert">
-                        <strong class="font-bold">Sukses!</strong>
-                        <span class="block sm:inline">{{ session('success') }}</span>
-                    </div>
-                @endif
-                <div class="p-6 text-gray-900">
-                    <a href="{{ route('admin.jadwal.create') }}"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah Jadwal</a>
+    <div class="py-7">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-between">
+            <!-- Kontainer untuk Total Jadwal -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <span class="font-semibold">Total Jadwal: {{ $jadwals->count() }}</span>
+            </div>
+            <!-- Kontainer untuk Tabel -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 w-full ml-4">
+                <a href="{{ route('admin.jadwal.create') }}"
+                class="bg-[#66A5AD] hover:bg-[#458998] text-black font-bold py-2 px-4 rounded">Tambah Jadwal</a>
 
-                    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-                    <table class="min-w-full bg-white display" id="myTable">
+                <div class="overflow-x-auto">
+                    <x-table>
                         <thead class="bg-gray-100">
                             <tr>
-                                <th class="px-6 py-3">Nama</th>
-                                <th class="px-6 py-3">Tanggal</th>
-                                <th class="px-6 py-3">Aksi</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-black">Nama</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-black">Tanggal</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-black">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($jadwals as $jadwal)
                                 <tr>
-                                    <td class="px-6 py-4">{{ $jadwal->nama }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900">
-                                        {{ $jadwal->tanggal->format('d-m-Y') }}</td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->nama }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d-m-Y') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
                                         <a href="{{ route('admin.jadwal.edit', $jadwal->id) }}"
-                                            class="text-blue-500">Edit</a>
+                                            class="text-blue-600 hover:text-blue-900">Edit</a>
                                         <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}" method="POST"
                                             class="inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-500">Hapus</button>
+                                            <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>
-                    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-                        crossorigin="anonymous"></script>
-                    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-                    <script>
-                        $(document).ready(function() {
-                            $('#myTable').DataTable();
-
-                            // Cek jika ada pesan sukses
-                            var successMessage = $('#success-message');
-                            if (successMessage.length) {
-                                // Setelah 3 detik, sembunyikan pesan
-                                setTimeout(function() {
-                                    successMessage.fadeOut('slow');
-                                }, 3000); // 3000ms = 3 detik
-                            }
-                        });
-                    </script>
+                    </x-table>
                 </div>
             </div>
         </div>

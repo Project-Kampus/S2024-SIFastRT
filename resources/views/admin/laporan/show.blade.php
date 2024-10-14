@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-7">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -28,23 +28,12 @@
 
                         <textarea name="catatan" placeholder="Masukkan catatan..." class="border-gray-300 rounded-md shadow-sm bg-white text-gray-900 mt-2 w-full" rows="3">{{ old('catatan', $laporan->catatan) }}</textarea>
                         
-                        <button type="submit" id="submitButton" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2 hidden">Simpan</button>
+                        <div class="flex justify-center">
+                            <x-button type="submit">
+                                Simpan
+                            </x-button>
+                        </div>
                     </form>
-
-                    <script>
-                        // Ambil elemen status dan tombol submit
-                        const statusSelect = document.getElementById('status');
-                        const submitButton = document.getElementById('submitButton');
-
-                        // Tambahkan event listener untuk status select
-                        statusSelect.addEventListener('change', function() {
-                            if (this.value === 'selesai') {
-                                submitButton.classList.remove('hidden'); // Tampilkan tombol hanya jika 'selesai' dipilih
-                            } else {
-                                submitButton.classList.add('hidden'); // Sembunyikan tombol jika bukan 'selesai'
-                            }
-                        });
-                    </script>
                 </div>
             </div>
         </div>

@@ -1,12 +1,12 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-[#66A5AD] max-w-8xl px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <h1 class="text-3xl font-bold text-gray-800">SIFastRT</h1>
                     </a>
                 </div>
 
@@ -20,27 +20,27 @@
                             <x-nav-link :href="route('admin.datawarga.index')" :active="request()->routeIs('admin.datawarga.index')">
                                 {{ __('Data Warga') }}
                             </x-nav-link>
-                            <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.index')">
-                                {{ __('Laporan') }}
+                            <x-nav-link :href="route('admin.peminjaman.index')" :active="request()->routeIs('admin.peminjaman.index')">
+                                {{ __('Inventaris') }}
                             </x-nav-link>
                             <x-nav-link :href="route('admin.jadwal.index')" :active="request()->routeIs('admin.jadwal.index')">
                                 {{ __('Penjadwalan') }}
                             </x-nav-link>
-                            <x-nav-link :href="route('admin.peminjaman.index')" :active="request()->routeIs('admin.peminjaman.index')">
-                                {{ __('Inventaris') }}
+                            <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.index')">
+                                {{ __('Laporan') }}
                             </x-nav-link>
                         @elseif (Auth::user()->role === 'user')
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
-                            <x-nav-link :href="route('laporan.create')" :active="request()->routeIs('laporan.create')">
-                                {{ __('Laporan') }}
+                            <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')">
+                                {{ __('Inventaris') }}
                             </x-nav-link>
                             <x-nav-link :href="route('jadwal.index')" :active="request()->routeIs('jadwal.index')">
                                 {{ __('Penjadwalan') }}
                             </x-nav-link>
-                            <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')">
-                                {{ __('Inventaris') }}
+                            <x-nav-link :href="route('laporan.create')" :active="request()->routeIs('laporan.create')">
+                                {{ __('Laporan') }}
                             </x-nav-link>
                         @endif
                     @endif

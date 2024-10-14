@@ -43,7 +43,7 @@ class JadwalController extends Controller
     }
 
     // Memperbarui jadwal
-    public function update(Request $request, Jadwal $jadwal) // Gunakan model binding
+    public function update(Request $request, Jadwal $jadwal) // Model binding untuk mendapatkan jadwal
     {
         $request->validate([
             'nama' => 'required|string|max:255',

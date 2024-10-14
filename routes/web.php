@@ -24,26 +24,30 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //  laporan user
     Route::prefix('laporan')->group(function () {
         Route::get('/', [LaporanController::class, 'create'])->name('laporan.create');
         Route::post('/', [LaporanController::class, 'store'])->name('laporan.store');
         Route::get('/riwayat', [LaporanController::class, 'riwayat'])->name('laporan.riwayat');
     });
 
+    // penjadwalan user
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'userIndex'])->name('jadwal.index'); // Users can view schedules
     });
 
+    // peminjaman user
     Route::prefix('peminjaman')->group(function () {
         Route::get('/peminjaman', [PeminjamanController::class, 'userIndex'])->name('peminjaman.index');
-    Route::get('/peminjaman/create', [PeminjamanController::class, 'userCreate'])->name('peminjaman.create');
-    Route::post('/peminjaman', [PeminjamanController::class, 'userStore'])->name('peminjaman.store');
+        Route::get('/peminjaman/create', [PeminjamanController::class, 'userCreate'])->name('peminjaman.create');
+        Route::post('/peminjaman', [PeminjamanController::class, 'userStore'])->name('peminjaman.store');
     });
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+    // Route datawarga admin
     Route::prefix('admin/datawarga')->group(function () {
         Route::get('/', [DatawargaController::class, 'index'])->name('admin.datawarga.index');
         Route::get('/create', [DatawargaController::class, 'create'])->name('admin.datawarga.create');
@@ -54,6 +58,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::delete('/{id}', [DatawargaController::class, 'destroy'])->name('admin.datawarga.destroy');
     });
 
+    // Route laporan admin
     Route::prefix('admin')->group(function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
         Route::post('/laporan/{laporan}', [LaporanController::class, 'update'])->name('admin.laporan.update');
@@ -61,23 +66,24 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::put('/laporan/{laporan}', [LaporanController::class, 'update'])->name('admin.laporan.update');
     });
 
-    // Rute untuk jadwal admin
+    // Route penjadwalan admin
     Route::prefix('admin/jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('admin.jadwal.index');
         Route::get('/create', [JadwalController::class, 'create'])->name('admin.jadwal.create');
         Route::post('/', [JadwalController::class, 'store'])->name('admin.jadwal.store');
-        Route::get('/{id}/edit', [JadwalController::class, 'edit'])->name('admin.jadwal.edit');
-        Route::put('/{id}', [JadwalController::class, 'update'])->name('admin.jadwal.update');
-        Route::delete('/{id}', [JadwalController::class, 'destroy'])->name('admin.jadwal.destroy');
-    });  
+        Route::get('/{jadwal}/edit', [JadwalController::class, 'edit'])->name('admin.jadwal.edit'); // Menggunakan model binding
+        Route::put('/{jadwal}', [JadwalController::class, 'update'])->name('admin.jadwal.update'); // Menggunakan model binding
+        Route::delete('/{jadwal}', [JadwalController::class, 'destroy'])->name('admin.jadwal.destroy'); // Menggunakan model binding
+    });
 
+    // Route peminjaman admin
     Route::prefix('admin/peminjaman')->group(function () {
         Route::get('/admin/peminjaman', [PeminjamanController::class, 'index'])->name('admin.peminjaman.index');
-    Route::get('/admin/peminjaman/create', [PeminjamanController::class, 'create'])->name('admin.peminjaman.create');
-    Route::post('/admin/peminjaman', [PeminjamanController::class, 'store'])->name('admin.peminjaman.store');
-    Route::get('/admin/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('admin.peminjaman.edit');
-    Route::put('/admin/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('admin.peminjaman.update');
-    Route::delete('/admin/peminjaman/{peminjaman}', [PeminjamanController::class, 'destroy'])->name('admin.peminjaman.destroy');
+        Route::get('/admin/peminjaman/create', [PeminjamanController::class, 'create'])->name('admin.peminjaman.create');
+        Route::post('/admin/peminjaman', [PeminjamanController::class, 'store'])->name('admin.peminjaman.store');
+        Route::get('/admin/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('admin.peminjaman.edit');
+        Route::put('/admin/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('admin.peminjaman.update');
+        Route::delete('/admin/peminjaman/{peminjaman}', [PeminjamanController::class, 'destroy'])->name('admin.peminjaman.destroy');
     });
 });
 

@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-7">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -43,7 +43,11 @@
                             @enderror
                         </div>
                         <div class="mt-6">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Simpan</button>
+                            <div class="flex justify-center">
+                                <x-button type="submit">
+                                    Simpan
+                                </x-button>
+                            </div>
                         </div>
                     </form>
                 </div>
