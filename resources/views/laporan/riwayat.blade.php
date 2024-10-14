@@ -55,7 +55,7 @@
     </div>
 
     <!-- Modal untuk Menampilkan Catatan -->
-    <div id="modal" class="fixed inset-0 flex items-center justify-center hidden bg-black bg-opacity-50">
+    <div id="modal" class="fixed inset-0 items-center justify-center hidden bg-black bg-opacity-50">
         <div class="bg-white rounded-lg p-4 max-w-md w-full">
             <h3 class="text-lg font-semibold">Catatan</h3>
             <textarea id="catatan" class="border border-gray-300 rounded-md w-full h-24 mt-2" readonly></textarea>
