@@ -9,7 +9,6 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\JadwalController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail; // Pastikan ini ditambahkan
 
 // Halaman utama diarahkan ke login
 Route::get('/', function () {
@@ -43,9 +42,9 @@ Route::middleware('auth')->group(function () {
 
     // Peminjaman user
     Route::prefix('peminjaman')->group(function () {
-        Route::get('/peminjaman', [PeminjamanController::class, 'userIndex'])->name('peminjaman.index');
-        Route::get('/peminjaman/create', [PeminjamanController::class, 'userCreate'])->name('peminjaman.create');
-        Route::post('/peminjaman', [PeminjamanController::class, 'userStore'])->name('peminjaman.store');
+        Route::get('/', [PeminjamanController::class, 'userIndex'])->name('peminjaman.index');
+        Route::get('/create', [PeminjamanController::class, 'userCreate'])->name('peminjaman.create');
+        Route::post('/', [PeminjamanController::class, 'userStore'])->name('peminjaman.store');
     });
 });
 
@@ -65,11 +64,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 
     // Route laporan admin
-    Route::prefix('admin')->group(function () {
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
-        Route::post('/laporan/{laporan}', [LaporanController::class, 'update'])->name('admin.laporan.update');
-        Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('admin.laporan.show');
-        Route::put('/laporan/{laporan}', [LaporanController::class, 'update'])->name('admin.laporan.update');
+    Route::prefix('admin/laporan')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('admin.laporan.index');
+        Route::post('/{laporan}', [LaporanController::class, 'update'])->name('admin.laporan.update');
+        Route::get('/{id}', [LaporanController::class, 'show'])->name('admin.laporan.show');
+        Route::put('/{laporan}', [LaporanController::class, 'update'])->name('admin.laporan.update');
     });
 
     // Route penjadwalan admin
@@ -84,12 +83,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Route peminjaman admin
     Route::prefix('admin/peminjaman')->group(function () {
-        Route::get('/admin/peminjaman', [PeminjamanController::class, 'index'])->name('admin.peminjaman.index');
-        Route::get('/admin/peminjaman/create', [PeminjamanController::class, 'create'])->name('admin.peminjaman.create');
-        Route::post('/admin/peminjaman', [PeminjamanController::class, 'store'])->name('admin.peminjaman.store');
-        Route::get('/admin/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('admin.peminjaman.edit');
-        Route::put('/admin/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('admin.peminjaman.update');
-        Route::delete('/admin/peminjaman/{peminjaman}', [PeminjamanController::class, 'destroy'])->name('admin.peminjaman.destroy');
+        Route::get('/', [PeminjamanController::class, 'index'])->name('admin.peminjaman.index');
+        Route::get('/create', [PeminjamanController::class, 'create'])->name('admin.peminjaman.create');
+        Route::post('/', [PeminjamanController::class, 'store'])->name('admin.peminjaman.store');
+        Route::get('/{id}/edit', [PeminjamanController::class, 'edit'])->name('admin.peminjaman.edit');
+        Route::put('/{id}', [PeminjamanController::class, 'update'])->name('admin.peminjaman.update');
+        Route::delete('/{peminjaman}', [PeminjamanController::class, 'destroy'])->name('admin.peminjaman.destroy');
     });
 });
 
@@ -107,16 +106,6 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-// Route untuk menguji pengiriman email
-Route::get('/test-email', function () {
-    Mail::raw('This is a test email.', function ($message) {
-        $message->to('fiqriwahyu58@gmail.com') // Ganti dengan alamat email Anda
-                ->subject('Test Email');
-    });
-
-    return 'Email sent!';
-});
 
 // Require file auth
 require __DIR__ . '/auth.php';
