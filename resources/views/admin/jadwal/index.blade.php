@@ -8,9 +8,6 @@
     <div class="py-7">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-between">
             <!-- Kontainer untuk Total Jadwal -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <span class="font-semibold">Total Jadwal: {{ $jadwals->count() }}</span>
-            </div>
             <!-- Kontainer untuk Tabel -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 w-full ml-4">
                 <a href="{{ route('admin.jadwal.create') }}"

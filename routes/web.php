@@ -2,41 +2,46 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DatawargaController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\JadwalController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail; // Pastikan ini ditambahkan
 
+// Halaman utama diarahkan ke login
 Route::get('/', function () {
     return view('auth.login');
 });
 
+// Dashboard yang hanya bisa diakses oleh pengguna yang sudah terverifikasi
 Route::get('/dashboard', function () {
     return view('dashboard');
 })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Middleware untuk otentikasi
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //  laporan user
+    // Laporan user
     Route::prefix('laporan')->group(function () {
         Route::get('/', [LaporanController::class, 'create'])->name('laporan.create');
         Route::post('/', [LaporanController::class, 'store'])->name('laporan.store');
         Route::get('/riwayat', [LaporanController::class, 'riwayat'])->name('laporan.riwayat');
     });
 
-    // penjadwalan user
+    // Penjadwalan user
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'userIndex'])->name('jadwal.index'); // Users can view schedules
     });
 
-    // peminjaman user
+    // Peminjaman user
     Route::prefix('peminjaman')->group(function () {
         Route::get('/peminjaman', [PeminjamanController::class, 'userIndex'])->name('peminjaman.index');
         Route::get('/peminjaman/create', [PeminjamanController::class, 'userCreate'])->name('peminjaman.create');
@@ -44,6 +49,7 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+// Route untuk Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
@@ -87,4 +93,30 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
+// Verifikasi email
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/dashboard');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+// Route untuk menguji pengiriman email
+Route::get('/test-email', function () {
+    Mail::raw('This is a test email.', function ($message) {
+        $message->to('fiqriwahyu58@gmail.com') // Ganti dengan alamat email Anda
+                ->subject('Test Email');
+    });
+
+    return 'Email sent!';
+});
+
+// Require file auth
 require __DIR__ . '/auth.php';

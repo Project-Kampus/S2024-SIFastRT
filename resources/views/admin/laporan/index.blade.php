@@ -12,7 +12,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg">Ringkasan</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
                         <div class="p-4 bg-gray-100 border border-gray-300 text-gray-800 rounded shadow-sm">
                             <strong>Total Pelapor:</strong> {{ $totalPelapor }}
                         </div>
